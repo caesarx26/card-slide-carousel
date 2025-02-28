@@ -1,75 +1,46 @@
-/* test*/
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
 body {
-  font-family: Inter;
+  font-family: Poppins, Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  font-weight: 300;
+  color: #fff;
 }
 
 .card {
   width: 300px;
   min-width: 300px;
-  height: auto;
-  background: #fff;
+  height: fit-content;
+  background: #343751;
   border-radius: 30px;
   position: relative;
   z-index: 10;
   margin: 25px;
-  min-height: 356px;
   cursor: pointer;
   transition: all 0.25s ease;
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.08);
 }
 
-.card:hover {
-  transform: translate(0, -10px);
-  box-shadow: 0px 17px 35px 0px rgba(0, 0, 0, 0.07);
+.card .card-title {
+  padding: 20px 20px 0 20px;
+  font-weight: 200;
+  font-size: 2rem;
+  line-height: 1.15;
+  color: #fff;
 }
 
-.card h4 {
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 15px;
+.card .use-cases-wrapper {
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
 }
 
-.card .card-text {
-  padding: 20px;
-}
-
-p {
-  font-size: 0.8rem;
-  opacity: 0.6;
-  margin-top: 10px;
-}
-
-.card .card-img {
-  transform: translate(90px, -10px);
-  margin: 0 30px;
+.card .use-cases-wrapper .use-case {
   display: flex;
+  gap: 4px;
   align-items: center;
-  justify-content: center;
-  transition: all 0.35s ease-out;
-}
-
-.card img {
-  height: 180px;
-}
-
-.card img.blur {
-  position: absulute;
-  filter: blur(15px);
-  z-index: -1;
-  opacity: 0.4;
-  transform: translate(-160px, 30px);
-  transition: all 0.35s ease-out;
-}
-
-.card:hover .card-img {
-  transform: translate(70px, -15px);
-}
-
-.card:hover .card-img img.blur {
-  transform: translate(-100px, 35px) scale(0.85);
-  opacity: 0.25;
-  filter: blur(20px);
+  font-size: 0.9rem;
+  color: #C3C6D4;
 }
 
 .card-content {
@@ -96,22 +67,8 @@ p {
   position: relative;
 }
 
-.btn {
-  min-width: 60px;
-  margin: auto 30px;
-  height: 60px;
-  border-radius: 20px;
-  background: #fff;
-  border: 0px;
-  outline: none;
-  cursor: pointer;
-  z-index: 9999;
-  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.08);
-  transition: all 0.25s ease;
-}
-
-.btn:hover {
-  box-shadow: 0px 17px 35px 0px rgba(0, 0, 0, 0.07);
+.slider-button {
+  display: none;
 }
 
 .slider {
@@ -124,32 +81,54 @@ p {
   overflow: hidden;
 }
 
-.slider:after {
-  content: "";
-  left: 98px;
-  height: 90vh;
-  position: absolute;
-  width: 150px;
-  z-index: 100;
-  background: linear-gradient(
-    90deg,
-    rgb(242, 243, 248) 0%,
-    rgba(242, 243, 248, 0) 100%
-  );
-  pointer-events: none;
-}
 
-.slider:before {
-  content: "";
-  right: 98px;
-  height: 90vh;
-  position: absolute;
-  width: 150px;
-  z-index: 100;
-  background: linear-gradient(
-    90deg,
-    rgba(242, 243, 248, 0) 0%,
-    rgba(242, 243, 248, 1) 100%
-  );
-  pointer-events: none;
+/* for screen sizes greater than ipad air screen sizes */
+@media screen and (min-width: 820px) {
+  .slider-button {
+    display: inline;
+    min-width: 60px;
+    margin: auto 30px;
+    height: 60px;
+    border: none;
+    /* Remove border */
+    background: none;
+    /* Remove background */
+    outline: none;
+    cursor: pointer;
+    z-index: 9999;
+    transition: all 0.25s ease;
+  }
+
+  .slider-button:hover svg circle {
+    stroke: white;
+    stroke-width: 2.5;
+  }
+
+  .slider:after {
+    content: "";
+    left: 98px;
+    height: 90vh;
+    position: absolute;
+    width: 150px;
+    z-index: 100;
+    background: linear-gradient(90deg,
+        rgb(242, 243, 248) 0%,
+        rgba(242, 243, 248, 0) 100%);
+    pointer-events: none;
+  }
+
+  .slider:before {
+    content: "";
+    right: 98px;
+    height: 90vh;
+    position: absolute;
+    width: 150px;
+    z-index: 100;
+    background: linear-gradient(90deg,
+        rgba(242, 243, 248, 0) 0%,
+        rgba(242, 243, 248, 1) 100%);
+    pointer-events: none;
+  }
+
+
 }
