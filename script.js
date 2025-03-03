@@ -7,12 +7,39 @@ let isScrolling = false;
 // Add cool down timer for button presses
 let lastClickTime = 0;
 const clickCoolDown = 500; // ms between allowed button presses
+const minimumSlideCount = 8; // Minimum number of original slides needed
 
 // Clone slides for infinite scrolling
 function setupInfiniteScroll() {
   // Get all original slides
   const originalSlides = Array.from(carouselItems.querySelectorAll(".carousel-slide"));
-  const slideCount = originalSlides.length;
+  let slideCount = originalSlides.length;
+
+  // If we have fewer than the minimum required slides, create additional duplicates
+  // before setting up infinite scrolling
+  if (slideCount < minimumSlideCount) {
+    // Calculate how many full sets of duplicates we need
+    const duplicateSetsNeeded = Math.ceil(minimumSlideCount / slideCount) - 1;
+
+    // Create the needed duplicates
+    for (let setIndex = 0; setIndex < duplicateSetsNeeded; setIndex++) {
+      for (let i = 0; i < slideCount; i++) {
+        const duplicate = originalSlides[i].cloneNode(true);
+        duplicate.classList.add("duplicate"); // Mark as duplicate (not a clone for infinite scrolling)
+        carouselItems.appendChild(duplicate);
+      }
+    }
+
+    // Update our list of "original" slides to include the duplicates
+    originalSlides.length = 0; // Clear the array
+    Array.from(carouselItems.querySelectorAll(".carousel-slide")).forEach(slide => {
+      originalSlides.push(slide);
+    });
+
+    // Update slide count
+    slideCount = originalSlides.length;
+    console.log(`Expanded to ${slideCount} slides to meet minimum of ${minimumSlideCount}`);
+  }
 
   // Clone all slides to create proper infinite scrolling
   // For the END clones (append at the end in the same order)
