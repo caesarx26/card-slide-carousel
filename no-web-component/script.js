@@ -4,6 +4,9 @@ const carouselItems = document.querySelector(".carousel-items");
 
 // Track if we're currently in a scroll animation
 let isScrolling = false;
+// Add cool down timer for button presses
+let lastClickTime = 0;
+const clickCoolDown = 500; // ms between allowed button presses
 
 // Clone slides for infinite scrolling
 function setupInfiniteScroll() {
@@ -64,7 +67,7 @@ function checkInfiniteScroll() {
     carouselItems.scrollLeft = totalOriginalWidth;
     setTimeout(() => {
       carouselItems.style.scrollBehavior = "smooth";
-    }, 50);
+    }, 100); // Increased from 50ms to 100ms for more stability
   }
 
   // If we've scrolled to or before the beginning clones
@@ -74,7 +77,7 @@ function checkInfiniteScroll() {
     carouselItems.scrollLeft = totalOriginalWidth;
     setTimeout(() => {
       carouselItems.style.scrollBehavior = "smooth";
-    }, 50);
+    }, 100); // Increased from 50ms to 100ms for more stability
   }
 }
 
@@ -95,9 +98,13 @@ function smoothScroll(targetScroll, duration) {
     if (progress < 1) {
       requestAnimationFrame(animationStep);
     } else {
-      isScrolling = false;
-      // After animation completes, check if we need to "loop"
-      checkInfiniteScroll();
+      // Add a small delay before considering the scroll complete
+      // This helps prevent stuttering and snap-backs
+      setTimeout(() => {
+        isScrolling = false;
+        // After animation completes, check if we need to "loop"
+        checkInfiniteScroll();
+      }, 150); // Added delay after animation completes
     }
   }
 
@@ -105,46 +112,61 @@ function smoothScroll(targetScroll, duration) {
 }
 
 function handleScrollNext() {
-  if (isScrolling) return; // Prevent multiple clicks during animation
+  const now = Date.now();
+
+  // Enforce cooldown between clicks
+  if (isScrolling || now - lastClickTime < clickCoolDown) return;
+
+  lastClickTime = now;
 
   const slides = carouselItems.querySelectorAll(".carousel-slide");
   const slideWidth = slides[0].offsetWidth;
   const gapWidth = parseInt(window.getComputedStyle(carouselItems).columnGap) || 0;
   const totalSlideWidth = slideWidth + gapWidth;
 
-  // Scroll by one slide width
-  smoothScroll(carouselItems.scrollLeft + totalSlideWidth, 250);
+  // Increased animation duration for smoother transitions
+  smoothScroll(carouselItems.scrollLeft + totalSlideWidth, 350); // Increased from 250ms to 350ms
 }
 
 function handleScrollPrev() {
-  if (isScrolling) return; // Prevent multiple clicks during animation
+  const now = Date.now();
+
+  // Enforce cooldown between clicks
+  if (isScrolling || now - lastClickTime < clickCoolDown) return;
+
+  lastClickTime = now;
 
   const slides = carouselItems.querySelectorAll(".carousel-slide");
   const slideWidth = slides[0].offsetWidth;
   const gapWidth = parseInt(window.getComputedStyle(carouselItems).columnGap) || 0;
   const totalSlideWidth = slideWidth + gapWidth;
 
-  // Scroll by one slide width
-  smoothScroll(carouselItems.scrollLeft - totalSlideWidth, 250);
+  // Increased animation duration for smoother transitions
+  smoothScroll(carouselItems.scrollLeft - totalSlideWidth, 350); // Increased from 250ms to 350ms
 }
 
-// Add scroll event listener to check infinite scroll during manual scrolling
+// Use debounced scroll event listener to check infinite scroll during manual scrolling
+let scrollTimeout;
 carouselItems.addEventListener("scroll", () => {
-  if (!isScrolling) {
-    // Use requestAnimationFrame to avoid excessive checks during scrolling
-    requestAnimationFrame(() => {
-      checkInfiniteScroll();
-    });
-  }
+  if (isScrolling) return;
+
+  clearTimeout(scrollTimeout);
+  scrollTimeout = setTimeout(() => {
+    checkInfiniteScroll();
+  }, 100); // Debounced scroll check
 });
 
 // Initialize infinite scroll on page load
 window.addEventListener("load", () => {
   setupInfiniteScroll();
 
-  // Adjust on window resize
+  // Adjust on window resize with debounce
+  let resizeTimeout;
   window.addEventListener("resize", () => {
-    resetScrollPosition();
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      resetScrollPosition();
+    }, 200); // Debounced resize handler
   });
 });
 
