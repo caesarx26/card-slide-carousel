@@ -57,11 +57,11 @@ body {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  overflow: auto;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  scroll-snap-type: x mandatory;
 }
 
 .carousel-slide {

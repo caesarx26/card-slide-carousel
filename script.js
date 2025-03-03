@@ -12,18 +12,20 @@ function setupInfiniteScroll() {
   const slideCount = originalSlides.length;
 
   // Clone all slides to create proper infinite scrolling
-  // This approach creates a full set of clones at both ends
+  // For the END clones (append at the end in the same order)
   originalSlides.forEach(slide => {
-    // Clone for the end
     const endClone = slide.cloneNode(true);
     endClone.classList.add("clone");
     carouselItems.appendChild(endClone);
+  });
 
-    // Clone for the beginning
-    const startClone = slide.cloneNode(true);
+  // For the BEGINNING clones (prepend at the beginning in REVERSE order)
+  // This is crucial for the correct visual sequence when scrolling backwards
+  for (let i = slideCount - 1; i >= 0; i--) {
+    const startClone = originalSlides[i].cloneNode(true);
     startClone.classList.add("clone");
     carouselItems.insertBefore(startClone, carouselItems.firstChild);
-  });
+  }
 
   // Set initial scroll position to skip the prepended clones
   resetScrollPosition();
@@ -97,10 +99,6 @@ function smoothScroll(targetScroll, duration) {
       // After animation completes, check if we need to "loop"
       checkInfiniteScroll();
     }
-  }
-
-  function easeOutQuad(t) {
-    return t * (2 - t);
   }
 
   requestAnimationFrame(animationStep);
