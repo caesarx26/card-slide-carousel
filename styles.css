@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Poppins");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 :root {
   --green: #00ca72;
@@ -19,18 +19,18 @@ body {
 }
 
 .card {
-  width: 300px;
   min-width: 300px;
   height: fit-content;
   background: #343751;
   border-radius: 10px;
   position: relative;
-  margin: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
-.card .card-title {
+.card-title {
   padding: 20px 20px 0 20px;
   font-weight: 200;
   font-size: 2rem;
@@ -38,15 +38,15 @@ body {
   color: #fff;
 }
 
-.card .use-cases-wrapper {
+.use-cases-wrapper {
   padding-top: 20px;
   padding-left: 20px;
   padding-bottom: 20px;
 }
 
-.card .use-cases-wrapper .use-case {
+.use-case {
   display: flex;
-  gap: 4px;
+  gap: 5px;
   align-items: center;
   font-size: 0.9rem;
   color: #c3c6d4;
@@ -67,15 +67,13 @@ body {
   display: none;
 }
 
-.slider-button {
-  display: none;
-}
-
-.overlay-left {
-  display: none;
-}
-
-.overlay-right {
+.slider-button,
+.overlay-left,
+.overlay-right,
+.card-recommended-title,
+.product-logo-wrapper-header,
+.product-logo-wrapper-footer,
+.signup-button {
   display: none;
 }
 
@@ -90,8 +88,8 @@ body {
   position: relative;
 }
 
-/* for screen sizes greater than ipad air screen sizes */
-@media screen and (min-width: 820px) {
+/* for ipad pro screen sizes or bigger */
+@media screen and (min-width: 1024px) {
   .card-green {
     background-color: var(--green);
   }
@@ -120,14 +118,131 @@ body {
     background-color: var(--dark-purple);
   }
 
-  .card .use-cases-wrapper .use-case {
+  .use-case {
     color: #fff;
+    margin-bottom: 10px;
+    gap: 4px;
   }
+
+  .card-recommended-title,
+  .product-logo-wrapper-header {
+    display: inline-block;
+  }
+
+  .card-title {
+    font-weight: 200;
+    font-size: 2.25rem;
+    line-height: 1.15;
+    color: #fff;
+    padding-top: 0px;
+  }
+
+
+  .card {
+    min-height: 330px;
+    min-width: 260px;
+    padding: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .use-cases-wrapper,
+  .card-recommended-title,
+  .product-logo-wrapper-header {
+    display: none;
+  }
+
+  .card-title,
+  .product-logo-wrapper-footer {
+    transition: opacity 0.3s ease-in-out, visibility 0.1s ease-in-out;
+    display: block;
+  }
+
+  .card:hover .card-title,
+  .card:hover .product-logo-wrapper-footer {
+    display: none;
+  }
+
+  .card:hover .use-cases-wrapper,
+  .card:hover .card-recommended-title,
+  .card:hover .product-logo-wrapper-header {
+    display: block;
+  }
+
+  .card:hover .signup-button {
+    display: flex;
+    justify-content: center;
+  }
+
+  .signup-button {
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: #fff;
+    color: #333333;
+    border: 1px solid #ccc;
+    border-radius: 40px;
+    width: 140px;
+    padding: 7px 20px;
+    text-align: center;
+    line-height: 17px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+
+  .card-recommended-title {
+    font-size: 0.9rem;
+    padding-top: 0px;
+    padding-bottom: 5px;
+  }
+
+  .card .card-recommended-title,
+  .card .product-logo-wrapper-header,
+  .card,
+  .signup-button {
+    margin-left: 0px;
+  }
+
+  .use-cases-wrapper {
+    padding-left: 0px;
+  }
+
+  .product-logo-wrapper-header .picture-component img {
+    width: 185px;
+  }
+
+  .use-cases-wrapper {
+    padding-top: 60px;
+  }
+
+  .product-logo-wrapper-footer {
+    display: inline-flex;
+    margin-top: auto;
+    padding: 20px;
+  }
+
+  .picture-component {
+    border-style: none;
+  }
+
+  .picture-component img {
+    width: 150px;
+    height: auto;
+    object-fit: contain;
+  }
+
 
   .slider-button:hover svg circle {
     stroke: white;
     stroke-width: 1;
   }
+
   .slider-button {
     display: block;
     border: none;
@@ -135,27 +250,26 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 2; /* Ensure it's above other elements */
+    z-index: 2;
   }
 
   .left {
-    left: 0;
-    margin-left: 20%;
+    left: 15%;
+
   }
 
   .right {
-    right: 0;
-    margin-right: 20%;
+    right: 15%;
   }
 
   .overlay-left {
     display: inline;
     height: 100%;
-    background: linear-gradient(270deg, rgba(255, 255, 255, 0) 0%, #fff 100%);
+    background: linear-gradient(270deg, rgba(255, 255, 255, 0) 0%, #fff 90.42%);
     position: absolute;
     top: 0;
     left: 0;
-    width: 300px;
+    width: 200px;
     z-index: 1;
   }
 
@@ -166,7 +280,16 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    width: 300px;
+    width: 200px;
     z-index: 1;
+  }
+
+}
+
+/* for extra wide monitor screen sizes */
+@media screen and (min-width: 1920px) {
+
+  .card {
+    min-width: 300px;
   }
 }
